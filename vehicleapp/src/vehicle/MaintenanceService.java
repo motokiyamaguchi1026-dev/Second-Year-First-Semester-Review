@@ -100,5 +100,61 @@ public class MaintenanceService {
     }
     
     
+    public boolean updateRecord(int recordId, String maintenanceDate,
+            int mileage, String maintenanceContent, int cost) {
+
+        for (MaintenanceRecord record : records) {
+
+            if (record.getId() == recordId) {
+
+                record.setMaintenanceDate(maintenanceDate);
+                record.setMileage(mileage);
+                record.setMaintenanceContent(maintenanceContent);
+                record.setCost(cost);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    
+    public boolean deleteRecord(int recordId) {
+
+        for (int i = 0; i < records.size(); i++) {
+
+            if (records.get(i).getId() == recordId) {
+                records.remove(i);
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public boolean deleteVehicle(int vehicleId) {
+
+        for (int i = 0; i < vehicles.size(); i++) {
+
+            if (vehicles.get(i).getId() == vehicleId) {
+
+                vehicles.remove(i);
+
+                for (int j = records.size() - 1; j >= 0; j--) {
+
+                    if (records.get(j).getVehicleId() == vehicleId) {
+                        records.remove(j);
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    
     
 }
