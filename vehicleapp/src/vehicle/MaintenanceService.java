@@ -155,6 +155,19 @@ public class MaintenanceService {
         return false;
     }
     
+    //入力idチェック
+    public boolean existsVehicle(int vehicleId) {
+
+        for (Vehicle vehicle : vehicles) {
+
+            if (vehicle.getId() == vehicleId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     
     
 }

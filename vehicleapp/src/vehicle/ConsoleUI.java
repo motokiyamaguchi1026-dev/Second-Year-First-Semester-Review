@@ -84,11 +84,8 @@ public class ConsoleUI {
         System.out.println();
         System.out.println("----- 車両登録 -----");
 
-        System.out.print("車両名を入力してください：");
-        String vehicleName = scanner.nextLine();
-
-        System.out.print("ナンバーを入力してください：");
-        String vehicleNumber = scanner.nextLine();
+        String vehicleName = inputRequired("車両名を入力してください：");
+        String vehicleNumber = inputRequired("ナンバーを入力してください：");
 
         service.addVehicle(vehicleName, vehicleNumber);
 
@@ -136,21 +133,22 @@ public class ConsoleUI {
             );
         }
 
-        System.out.print("車両IDを入力してください：");
-        int vehicleId = Integer.parseInt(scanner.nextLine());
+        int vehicleId;
+        while (true) {
 
-        System.out.print("整備日を入力してください：");
-        String maintenanceDate = scanner.nextLine();
+            vehicleId = inputNumber("車両IDを入力してください：");
 
-        System.out.print("走行距離を入力してください：");
-        int mileage = Integer.parseInt(scanner.nextLine());
+            if (service.existsVehicle(vehicleId)) {
+                break;
+            }
 
-        System.out.print("整備内容を入力してください：");
-        String maintenanceContent = scanner.nextLine();
-
-        System.out.print("費用を入力してください：");
-        int cost = Integer.parseInt(scanner.nextLine());
-
+            System.out.println("指定された車両がありません。");
+        }
+        String maintenanceDate = inputRequired("整備日を入力してください：");
+        int mileage = inputNumber("走行距離を入力してください：");
+        String maintenanceContent = inputRequired("整備内容を入力してください：");
+        int cost = inputNumber("費用を入力してください：");
+        
         service.addRecord(
                 vehicleId,
                 maintenanceDate,
@@ -354,8 +352,7 @@ public class ConsoleUI {
             );
         }
 
-        System.out.print("更新する整備記録IDを入力してください：");
-        int recordId = Integer.parseInt(scanner.nextLine());
+        int recordId = inputNumber("更新する整備記録IDを入力してください：");
 
         MaintenanceRecord targetRecord = null;
 
@@ -382,17 +379,10 @@ public class ConsoleUI {
         System.out.println();
         System.out.println("新しい情報を入力してください。");
 
-        System.out.print("整備日：");
-        String maintenanceDate = scanner.nextLine();
-
-        System.out.print("走行距離：");
-        int mileage = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("整備内容：");
-        String maintenanceContent = scanner.nextLine();
-
-        System.out.print("費用：");
-        int cost = Integer.parseInt(scanner.nextLine());
+        String maintenanceDate =inputRequired("整備日：");
+        int mileage =inputNumber("走行距離：");
+        String maintenanceContent = inputRequired("整備内容：");
+        int cost = inputNumber("費用：");
 
         service.updateRecord(
                 recordId,
@@ -448,8 +438,7 @@ public class ConsoleUI {
                 );
             }
 
-            System.out.print("削除する車両IDを入力してください：");
-            int vehicleId = Integer.parseInt(scanner.nextLine());
+            int vehicleId = inputNumber("削除する車両IDを入力してください：");
 
             Vehicle targetVehicle = null;
 
@@ -505,15 +494,48 @@ public class ConsoleUI {
                 );
             }
 
-            System.out.print("削除する整備記録IDを入力してください：");
-            int recordId = Integer.parseInt(scanner.nextLine());
-
+            int recordId = inputNumber("削除する整備記録IDを入力してください：");
+            
             boolean deleted = service.deleteRecord(recordId);
 
             if (deleted) {
                 System.out.println("整備記録を削除しました。");
             } else {
                 System.out.println("指定された整備記録がありません。");
+            }
+        }
+        
+        //入力対策
+        private String inputRequired(String message) {
+
+            while (true) {
+
+                System.out.print(message);
+                String input = scanner.nextLine();
+
+                if (!input.trim().isEmpty()) {
+                    return input;
+                }
+
+                System.out.println("入力してください。");
+            }
+        }
+        private int inputNumber(String message) {
+
+            while (true) {
+                System.out.print(message);
+                String input = scanner.nextLine();
+
+                try {
+                    int number = Integer.parseInt(input);
+                    if (number < 0) {
+                        System.out.println("0以上の数字を入力してください。");
+                        continue;
+                    }
+                    return number;
+                } catch (NumberFormatException e) {
+                    System.out.println("数字を入力してください。");
+                }
             }
         }
     
