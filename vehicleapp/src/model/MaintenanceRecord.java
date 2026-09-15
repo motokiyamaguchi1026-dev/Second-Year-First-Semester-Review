@@ -1,7 +1,6 @@
-package vehicle;
-
+package model;
+//整備記録用
 public class MaintenanceRecord {
-
     private int id;
     private int vehicleId;
     private String maintenanceDate;
@@ -51,7 +50,7 @@ public class MaintenanceRecord {
     public void setMileage(int mileage) {
         this.mileage = mileage;
     }
-
+    
     public void setMaintenanceContent(String maintenanceContent) {
         this.maintenanceContent = maintenanceContent;
     }

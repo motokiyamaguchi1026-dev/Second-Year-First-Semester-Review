@@ -1,7 +1,6 @@
-package vehicle;
-
+package model;
+//車のデータ用
 public class Vehicle {
-
     private int id;
     private String vehicleName;
     private String vehicleNumber;
@@ -15,7 +14,7 @@ public class Vehicle {
     public int getId() {
         return id;
     }
-
+    
     public String getVehicleName() {
         return vehicleName;
     }
